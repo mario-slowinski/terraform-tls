@@ -21,3 +21,16 @@ output "cert" {
   description = "Certificate in PEM format."
   sensitive   = false
 }
+
+output "key_vault_secret" {
+  value       = one(azurerm_key_vault_certificate.pfx[*].versionless_secret_id)
+  description = "Key Vault certificate ID."
+  sensitive   = true
+}
+
+
+output "key_vault_certificate" {
+  value       = one(azurerm_key_vault_certificate.pfx[*].versionless_id)
+  description = "Key Vault certificate ID."
+  sensitive   = false
+}
