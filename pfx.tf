@@ -39,11 +39,3 @@ resource "null_resource" "pem2pfx" {
     random_password.pfx,
   ]
 }
-
-data "local_file" "pfx" {
-  filename = "${path.root}/${var.certs}/${var.subject.common_name}.pfx"
-
-  depends_on = [
-    null_resource.pem2pfx,
-  ]
-}

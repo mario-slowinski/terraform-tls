@@ -41,8 +41,4 @@ resource "azurerm_key_vault_certificate" "pfx" {
     ) : (
     { for tag in local.tags : tag.key => tag.value }
   )
-
-  depends_on = [
-    data.local_file.pfx,
-  ]
 }
