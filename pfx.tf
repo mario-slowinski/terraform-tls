@@ -25,8 +25,8 @@ resource "local_file" "crt" {
 
 resource "null_resource" "pem2pfx" {
   triggers = {
-    key         = local_sensitive_file.key.content
-    certificate = local_file.crt.content
+    key         = local_sensitive_file.key.id
+    certificate = local_file.crt.id
   }
 
   provisioner "local-exec" {
