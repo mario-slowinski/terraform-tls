@@ -32,11 +32,7 @@ resource "azurerm_key_vault_certificate" "pfx" {
     }
   }
 
-  tags = length(var.tags) > 0 ? (
-    var.tags
-    ) : (
-    { for tag in local.tags : tag.key => tag.value }
-  )
+  tags = merge(local.tags, var.tags)
   depends_on = [
     null_resource.pem2pfx,
   ]
