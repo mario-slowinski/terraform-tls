@@ -1,11 +1,7 @@
 resource "azurerm_key_vault_certificate" "pfx" {
   count = length(var.key_vault_id) > 0 ? 1 : 0
 
-  name = length(var.certificate_name) > 0 ? (
-    var.certificate_name
-    ) : (
-    replace(var.subject.common_name, "/\\.\\w+/", "")
-  )
+  name         = coalesce(var.certificate_name, replace(var.subject.common_name, "/\\.\\w+/", ""))
   key_vault_id = var.key_vault_id
 
   certificate {
