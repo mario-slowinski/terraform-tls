@@ -5,7 +5,7 @@ resource "azurerm_key_vault_certificate" "pfx" {
   key_vault_id = var.key_vault_id
 
   certificate {
-    contents = try(filebase64("${path.root}/files/${var.subject.common_name}.pfx"), "")
+    contents = filebase64("${path.root}/files/${var.subject.common_name}.pfx")
     password = random_password.pfx.result
   }
 
@@ -37,4 +37,7 @@ resource "azurerm_key_vault_certificate" "pfx" {
     ) : (
     { for tag in local.tags : tag.key => tag.value }
   )
+  depends_on = [
+    null_resource.pem2pfx,
+  ]
 }
