@@ -16,10 +16,9 @@ resource "tls_self_signed_cert" "ca" {
     street_address      = var.subject.street_address
   }
   validity_period_hours = var.validity_period_days * 24
-
   allowed_uses = [
     "cert_signing",
     "crl_signing",
   ]
-  is_ca_certificate = true
+  is_ca_certificate = var.is_ca_certificate
 }

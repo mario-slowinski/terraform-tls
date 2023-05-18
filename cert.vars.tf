@@ -55,3 +55,8 @@ variable "validity_period_days" {
   description = "Number of days, after initial issuing, that the certificate will remain valid for."
   default     = 730
 }
+
+variable "is_ca_certificate" {
+  type        = bool
+  description = "Whether it is a CA certificate."
+}
