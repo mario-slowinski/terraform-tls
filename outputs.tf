@@ -28,9 +28,14 @@ output "key_vault_secret_id" {
   sensitive   = true
 }
 
-
 output "key_vault_certificate_id" {
   value       = one(azurerm_key_vault_certificate.pfx[*].id)
   description = "Key Vault certificate ID."
+  sensitive   = false
+}
+
+output "aws_acm_certificate_id" {
+  value       = one(aws_acm_certificate.cert[*].id)
+  description = "ID of certtificate in AWS Certificate Manager."
   sensitive   = false
 }
