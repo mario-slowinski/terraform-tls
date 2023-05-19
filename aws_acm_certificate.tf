@@ -7,7 +7,8 @@ resource "aws_acm_certificate" "cert" {
     ) : (
     trimspace(one(tls_self_signed_cert.ca[*].cert_pem))
   )
-  tags = merge(local.tags, var.tags, local.Name)
+  certificate_chain = var.certificate_chain
+  tags              = merge(local.tags, var.tags, local.Name)
 
   depends_on = [
     tls_private_key.key,
