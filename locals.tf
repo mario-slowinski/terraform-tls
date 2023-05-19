@@ -9,6 +9,6 @@ locals {
   names = compact(matchkeys(var.tags_values, var.tags_keys, var.names_keys))
   name  = join(var.separator, local.names)
   Name = {
-    "Name" : coalesce(var.name, local.name)
+    "Name" : coalesce(var.name, local.name, "Name")
   }
 }
