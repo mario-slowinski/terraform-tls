@@ -1,5 +1,5 @@
 resource "local_sensitive_file" "key" {
-  content         = trimspace(tls_private_key.key.private_key_pem)
+  content         = tls_private_key.key.private_key_pem
   filename        = "${path.root}/${var.certs}/${var.subject.common_name}.key"
   file_permission = "0600"
 
@@ -10,9 +10,9 @@ resource "local_sensitive_file" "key" {
 
 resource "local_file" "crt" {
   content = length(var.ca_crt_pem) > 0 ? (
-    trimspace(one(tls_locally_signed_cert.crt[*].cert_pem))
+    one(tls_locally_signed_cert.crt[*].cert_pem)
     ) : (
-    trimspace(one(tls_self_signed_cert.ca[*].cert_pem))
+    one(tls_self_signed_cert.ca[*].cert_pem)
   )
   filename        = "${path.root}/${var.certs}/${var.subject.common_name}.crt"
   file_permission = "0644"
