@@ -1,11 +1,19 @@
-resource "azurerm_key_vault_certificate" "pfx" {
+resource "azurerm_key_vault_certificate" "this" {
   count = length(var.key_vault_id) > 0 ? 1 : 0
 
   name         = coalesce(var.certificate_name, replace(var.subject.common_name, "/\\.\\w+/", ""))
   key_vault_id = var.key_vault_id
 
   certificate {
-    contents = filebase64("${path.root}/files/${var.subject.common_name}.pfx")
+    contents = var.content_type == "application/x-pem-file" ? (
+      join("", [
+        one(tls_private_key.key[*].private_key_pem_pkcs8),
+        one(tls_locally_signed_cert.crt[*].cert_pem),
+        ]
+      )
+      ) : (
+      filebase64("${path.root}/${var.certs}/${var.subject.common_name}.pfx")
+    )
     password = random_password.pfx.result
   }
 
@@ -14,9 +22,10 @@ resource "azurerm_key_vault_certificate" "pfx" {
       name = "Self"
     }
     key_properties {
+      curve      = var.key_properties.curve
       exportable = var.key_properties.exportable
-      key_type   = var.key.algorithm
-      key_size   = var.key.rsa_bits
+      key_type   = var.key_properties.key_type
+      key_size   = var.key_properties.key_size
       reuse_key  = var.key_properties.reuse_key
     }
     lifetime_action {
@@ -28,12 +37,16 @@ resource "azurerm_key_vault_certificate" "pfx" {
       }
     }
     secret_properties {
-      content_type = "application/x-pkcs12"
+      content_type = var.content_type
     }
   }
 
   tags = merge(local.tags, var.tags)
+
   depends_on = [
+    tls_private_key.key,
+    tls_self_signed_cert.ca,
+    tls_locally_signed_cert.crt,
     null_resource.pem2pfx,
   ]
 }

@@ -1,4 +1,4 @@
-output "pfx" {
+output "password" {
   value       = random_password.pfx.result
   description = "The TLS certificate password."
   sensitive   = true
@@ -23,13 +23,13 @@ output "crt" {
 }
 
 output "key_vault_secret_id" {
-  value       = one(azurerm_key_vault_certificate.pfx[*].secret_id)
+  value       = one(azurerm_key_vault_certificate.this[*].secret_id)
   description = "Key Vault certificate ID."
   sensitive   = true
 }
 
 output "key_vault_certificate_id" {
-  value       = one(azurerm_key_vault_certificate.pfx[*].id)
+  value       = one(azurerm_key_vault_certificate.this[*].id)
   description = "Key Vault certificate ID."
   sensitive   = false
 }
