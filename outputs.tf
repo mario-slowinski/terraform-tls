@@ -4,14 +4,13 @@ output "password" {
   sensitive   = true
 }
 
-# terraform output -raw key
+# terraform output -raw key.private_key_pem
 output "key" {
-  value       = tls_private_key.key.private_key_pem
-  description = "Private key in PEM format."
+  value       = tls_private_key.key
+  description = "Private key."
   sensitive   = true
 }
 
-# terraform output -raw crt
 output "crt" {
   value = length(var.ca_crt_pem) > 0 ? (
     one(tls_locally_signed_cert.crt[*].cert_pem)
