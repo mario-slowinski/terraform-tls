@@ -21,21 +21,3 @@ output "crt" {
   description = "Certificate in PEM format."
   sensitive   = false
 }
-
-output "key_vault_secret_id" {
-  value       = one(azurerm_key_vault_certificate.this[*].secret_id)
-  description = "Key Vault certificate ID."
-  sensitive   = true
-}
-
-output "key_vault_certificate_id" {
-  value       = one(azurerm_key_vault_certificate.this[*].id)
-  description = "Key Vault certificate ID."
-  sensitive   = false
-}
-
-output "aws_acm_certificate_id" {
-  value       = one(aws_acm_certificate.cert[*].id)
-  description = "ID of certtificate in AWS Certificate Manager."
-  sensitive   = false
-}
