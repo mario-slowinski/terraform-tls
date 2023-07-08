@@ -13,9 +13,9 @@ output "key" {
 
 output "crt" {
   value = length(var.ca_crt_pem) > 0 ? (
-    one(tls_locally_signed_cert.crt[*].cert_pem)
+    one(tls_locally_signed_cert.crt[*])
     ) : (
-    one(tls_self_signed_cert.ca[*].cert_pem)
+    one(tls_self_signed_cert.ca[*])
   )
   description = "Certificate in PEM format."
   sensitive   = false
