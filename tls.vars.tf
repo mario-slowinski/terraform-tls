@@ -1,13 +1,13 @@
 variable "ca_key_pem" {
   type        = string
   description = "Certificate data of the Certificate Authority (CA) in PEM (RFC 1421) format."
-  default     = ""
+  default     = null
 }
 
 variable "ca_crt_pem" {
   type        = string
   description = "Certificate data of the Certificate Authority (CA) in PEM (RFC 1421) format."
-  default     = ""
+  default     = null
 }
 
 variable "allowed_uses" {
@@ -38,15 +38,9 @@ variable "subject" {
     street_address      = optional(list(string))
   })
   default = {
-    common_name         = "Root-CA"
-    country             = "PL"
-    locality            = ""
-    organization        = "contodoso"
-    organizational_unit = ""
-    postal_code         = ""
-    province            = ""
-    serial_number       = ""
-    street_address      = []
+    common_name  = null
+    country      = null
+    organization = null
   }
 }
 

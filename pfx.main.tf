@@ -9,10 +9,10 @@ resource "local_sensitive_file" "key" {
 }
 
 resource "local_file" "crt" {
-  content = length(var.ca_crt_pem) > 0 ? (
-    one(tls_locally_signed_cert.crt[*].cert_pem)
+  content = var.ca_crt_pem != null ? (
+    tls_locally_signed_cert.crt[var.subject.common_name].cert_pem
     ) : (
-    one(tls_self_signed_cert.ca[*].cert_pem)
+    tls_self_signed_cert.ca[var.subject.common_name].cert_pem
   )
   filename        = "${path.root}/${var.certs}/${var.subject.common_name}.crt"
   file_permission = "0644"

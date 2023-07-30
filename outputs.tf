@@ -12,10 +12,10 @@ output "key" {
 }
 
 output "crt" {
-  value = length(var.ca_crt_pem) > 0 ? (
-    one(tls_locally_signed_cert.crt[*])
+  value = var.ca_crt_pem != null ? (
+    tls_locally_signed_cert.crt[var.subject.common_name]
     ) : (
-    one(tls_self_signed_cert.ca[*])
+    tls_self_signed_cert.ca[var.subject.common_name]
   )
   description = "Certificate in PEM format."
   sensitive   = false
