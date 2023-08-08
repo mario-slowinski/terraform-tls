@@ -1,4 +1,4 @@
-output "password" {
+output "pfx" {
   value       = random_password.pfx.result
   description = "The TLS certificate password."
   sensitive   = true
