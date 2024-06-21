@@ -20,3 +20,16 @@ output "crt" {
   description = "Certificate in PEM format."
   sensitive   = false
 }
+
+output "pkcs8" {
+  value = trimspace(join("", [
+    var.ca_crt_pem != null ? (
+      tls_locally_signed_cert.crt[var.subject.common_name].cert_pem
+      ) : (
+      tls_self_signed_cert.ca[var.subject.common_name].cert_pem
+    ),
+    tls_private_key.key.private_key_pem_pkcs8,
+  ]))
+  description = "Private key and certificate in PKCS8 format."
+  sensitive   = true
+}
