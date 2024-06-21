@@ -1,6 +1,10 @@
 resource "tls_self_signed_cert" "ca" {
   # ca_cert_pem not set => creating CA cert => use self_signed_cert
-  for_each = { for subject in [var.subject] : subject.common_name => subject if var.ca_crt_pem == null }
+  for_each = {
+    for subject in [var.subject] :
+    subject.common_name => subject
+    if var.ca_crt_pem == null
+  }
 
   private_key_pem = tls_private_key.key.private_key_pem
 
@@ -16,9 +20,6 @@ resource "tls_self_signed_cert" "ca" {
     street_address      = each.value.street_address
   }
   validity_period_hours = var.validity_period_days * 24
-  allowed_uses = [
-    "cert_signing",
-    "crl_signing",
-  ]
-  is_ca_certificate = var.is_ca_certificate
+  allowed_uses          = var.allowed_uses
+  is_ca_certificate     = var.is_ca_certificate
 }
