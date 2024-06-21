@@ -25,8 +25,8 @@ resource "tls_locally_signed_cert" "crt" {
   # ca_crt_pem set => creating TLS cert => use locally_signed_cert
   for_each = { for subject in [var.subject] : subject.common_name => subject if var.ca_crt_pem != null }
 
-  ca_private_key_pem    = var.ca_key_pem
-  ca_cert_pem           = var.ca_crt_pem
+  ca_private_key_pem    = trimspace(var.ca_key_pem)
+  ca_cert_pem           = trimspace(var.ca_crt_pem)
   cert_request_pem      = tls_cert_request.csr[var.subject.common_name].cert_request_pem
   validity_period_hours = var.validity_period_days * 24
   allowed_uses          = var.allowed_uses
