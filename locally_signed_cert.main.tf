@@ -31,6 +31,7 @@ resource "tls_locally_signed_cert" "crt" {
   validity_period_hours = var.validity_period_days * 24
   allowed_uses          = var.allowed_uses
   is_ca_certificate     = var.is_ca_certificate
+  early_renewal_hours   = var.early_renewal_hours
 
   depends_on = [
     tls_cert_request.csr,

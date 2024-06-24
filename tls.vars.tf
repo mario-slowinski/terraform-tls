@@ -54,3 +54,9 @@ variable "is_ca_certificate" {
   type        = bool
   description = "Whether it is a CA certificate."
 }
+
+variable "early_renewal_hours" {
+  type        = number
+  description = "The resource will consider the certificate to have expired the given number of hours before its actual expiry time."
+  default     = 120
+}
